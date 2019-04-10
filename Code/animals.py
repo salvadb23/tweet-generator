@@ -1,8 +1,6 @@
 from dictionary_words import getWords
 from pprint import pprint
 
-getWords('animals.txt')
-
 def count_animals(animals_list):
     """Count occurences in the given list of animals
     and return that data structure"""
@@ -15,7 +13,26 @@ def count_animals(animals_list):
 
     return animal_counts
 
-pprint(count_animals(getWords('animals.txt')))
+def print_table(animal_counts):
+    """prints out a tabel of animals and their counts."""
+    print('Animal || Count')
+    print('------------')
+    # for animal_name in animal_counts:
+    #     count = animal_counts[animal_name]
+    #     print('{} | {}'.format(animal_name, count))
+    total_count = 0
+    for animal_name, count in animal_counts.items():
+        total_count += count
+        print('{} | {}'.format(animal_name, count))
+    print('------------')
+    print(f'Total: {total_count}')
+
+
+
+# pprint(count_animals(getWords('animals.txt')))
+print_table(count_animals(getWords('animals.txt')))
+
+
 
 # def get_words(filename):
 #     """Open the file and 

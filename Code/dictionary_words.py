@@ -8,10 +8,10 @@ def getWords(file):
     words.close()
     return wordList
 
-def randomWordSentence(num, words):
+def randomWordSentence(num, wordList):
     sentence = []
     while len(sentence) < num:
-        sentence.append(words[random.randint(1,len(words))])
+        sentence.append(wordList[random.randint(1,len(wordList))])
     return ' '.join(sentence)
 
 if __name__ == '__main__':

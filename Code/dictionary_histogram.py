@@ -14,5 +14,11 @@ def dict_histogram(lists):
 
     return dictionary
 
+def total_hist_count(hist):
+    total_count = 0
+    for word in hist:
+        total_count += hist[word]
+    return total_count
+    
 if __name__ == "__main__":
-    print(dict_histogram(getWords('animals.txt')))
+    print(total_hist_count(dict_histogram(getWords('animals.txt'))))

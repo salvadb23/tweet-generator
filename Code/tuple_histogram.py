@@ -1,6 +1,6 @@
-from dictionary_words import getWords
+from dictionary_words import get_words
 from dictionary_histogram import dict_histogram
-wordList = getWords('animals.txt')
+wordList = get_words('animals.txt')
 
 def histogram_tuple(list):
     dictionary = dict_histogram(list)

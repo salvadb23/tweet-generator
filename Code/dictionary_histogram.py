@@ -1,6 +1,4 @@
-from dictionary_words import getWords
-
-
+from dictionary_words import get_words
 
 def dict_histogram(lists):
     """Count occurences in the given list 
@@ -21,4 +19,4 @@ def total_hist_count(hist):
     return total_count
     
 if __name__ == "__main__":
-    print(total_hist_count(dict_histogram(getWords('animals.txt'))))
+    print(dict_histogram(get_words('1984.txt')))

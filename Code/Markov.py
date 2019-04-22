@@ -34,6 +34,7 @@ class MarkovChain(dict):
         return self
 
     def chain_traversal(self, length=10):
+        ''' Creates a sentence using the Markov Chain'''
         current_word = random.choice(list(self))
         sentence = []
         sentence.append(current_word)
@@ -48,7 +49,7 @@ def test_chain_traversal():
     word_list = get_words("1984.txt")
     markov_chain = MarkovChain(word_list)
     for _ in range(5):
-        pprint(markov_chain.chain_traversal(15))
+        pprint(markov_chain.chain_traversal(10))
 
 
 def main():

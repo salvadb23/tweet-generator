@@ -46,10 +46,9 @@ class MarkovChain(dict):
 
 
 def test_chain_traversal():
-    word_list = get_words("1984.txt")
+    word_list = get_words("fish.txt")
     markov_chain = MarkovChain(word_list)
-    for _ in range(5):
-        pprint(markov_chain.chain_traversal(10))
+    pprint(markov_chain)
 
 
 def main():

@@ -52,6 +52,10 @@ class HashTable(object):
     def length(self):
         """Return the number of key-value entries by traversing its buckets.
         TODO: Running time: O(???) Why and under what conditions?"""
+        count = 0
+        for buckets in self.buckets:
+            count += buckets.length
+        return count
         # TODO: Loop through all buckets
         # TODO: Count number of key-value entries in each bucket
 
@@ -64,6 +68,12 @@ class HashTable(object):
     def get(self, key):
         """Return the value associated with the given key, or raise KeyError.
         TODO: Running time: O(???) Why and under what conditions?"""
+        index = self._bucket_index(key)
+        bucket = self.buckets[index]
+        if bucket.is_empty():
+            raise KeyError('Key not found: {}'.format(key))
+        else:
+            return bucket.items()[0][1]
         # TODO: Find bucket where given key belongs
         # TODO: Check if key-value entry exists in bucket
         # TODO: If found, return value associated with given key
@@ -73,6 +83,15 @@ class HashTable(object):
     def set(self, key, value):
         """Insert or update the given key with its associated value.
         TODO: Running time: O(???) Why and under what conditions?"""
+        keyindex = self._bucket_index(key)
+        bucket = self.buckets[keyindex]
+        previous_val = None
+        for keys, vals in bucket.items():
+            if keys == key:
+                previous_val = vals
+        if previous_val is not None:
+            bucket.delete((key, previous_val))
+        bucket.append((key,value))
         # TODO: Find bucket where given key belongs
         # TODO: Check if key-value entry exists in bucket
         # TODO: If found, update value associated with given key
@@ -93,18 +112,19 @@ def test_hash_table():
     print('hash table: {}'.format(ht))
 
     print('\nTesting set:')
-    for key, value in [('I', 1), ('V', 5), ('X', 10)]:
+    for key, value in [('H', 1), ('V', 5), ('I', 3), ('V', 4), ('X', 10)]:
         print('set({!r}, {!r})'.format(key, value))
         ht.set(key, value)
         print('hash table: {}'.format(ht))
+        print(ht.buckets[1].items())
 
-    print('\nTesting get:')
-    for key in ['I', 'V', 'X']:
-        value = ht.get(key)
-        print('get({!r}): {!r}'.format(key, value))
+    # print('\nTesting get:')
+    # for key in ['I', 'V', 'X']:
+    #     value = ht.get(key)
+    #     print('get({!r}): {!r}'.format(key, value))
 
-    print('contains({!r}): {}'.format('X', ht.contains('X')))
-    print('length: {}'.format(ht.length()))
+    # print('contains({!r}): {}'.format('X', ht.contains('X')))
+    # print('length: {}'.format(ht.length()))
 
     # Enable this after implementing delete method
     delete_implemented = False

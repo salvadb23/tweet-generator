@@ -65,9 +65,6 @@ class LinkedList(object):
         if (self.tail is None):
             self.head = node
             self.tail = node
-        elif (self.head.next is None):
-            self.tail = node
-            self.head.next = node
         else:
             self.tail.next = node
             self.tail = node
@@ -81,9 +78,6 @@ class LinkedList(object):
         if (self.head is None):
             self.head = node
             self.tail = node
-        elif (self.head.next is None):
-            self.head = node
-            self.head.next = self.tail
         else:
             node.next = self.head
             self.head = node
@@ -106,14 +100,14 @@ class LinkedList(object):
         previousNode = None
         if(not self.is_empty()):
             while currentNode is not None:
-                if self.head is self.tail:
-                    self.head = None
-                    self.tail = None
                 if currentNode.data == item:
+                    if self.head is self.tail:
+                        self.head = None
+                        self.tail = None
                     if previousNode is None: 
                         self.head = currentNode.next
                         currentNode.next = None
-                        return self.head # Deleted the head
+                        return self.head 
                     elif currentNode.next is None:
                         self.tail = previousNode
                     previousNode.next = currentNode.next
@@ -121,7 +115,7 @@ class LinkedList(object):
                 previousNode = currentNode
                 currentNode = currentNode.next
         raise ValueError('Item not found: {}'.format(item))
-                # TODO: Update previous node to skip around node with matching data
+                
 
 
 def test_linked_list():

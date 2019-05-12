@@ -20,7 +20,7 @@ class MarkovChain(dict):
 
     def create_chain(self, word_list):
         '''Build the Markov Chain from a word_list'''
-        for index in range(len(self.word_list)-1):
+        for index in range(len(self.word_list)-2):
             prev_2 = (self.word_list[index], self.word_list[index + 1])
             # Gets the word next to current word
             next_word = self.word_list[index + 2]
@@ -33,22 +33,21 @@ class MarkovChain(dict):
                 self[prev_2] = {next_word: 1}
         return self
 
-    def chain_traversal(self, length=10):
+    def chain_traversal(self, length=20):
         ''' Creates a sentence using the Markov Chain'''
-        current_word = random.choice(list(self))
+        current_word = random.choice(list(self.keys()))
         sentence = []
-        sentence.append(current_word)
         for _ in range(length):
             new_word = sample(self[current_word])
-            sentence.append(sample(self[current_word]))
-            current_word = new_word
+            sentence.append(current_word[1])
+            current_word = (current_word[1],new_word)
         return ' '.join(sentence)
 
 
 def test_chain_traversal():
-    word_list = get_words("fish.txt")
+    word_list = get_words("1984.txt")
     markov_chain = MarkovChain(word_list)
-    pprint(markov_chain)
+    pprint(markov_chain.chain_traversal())
 
 
 def main():

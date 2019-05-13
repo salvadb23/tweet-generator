@@ -41,7 +41,7 @@ class HashTable(object):
         """
         # TODO: Loop through all buckets
         all_values = []  # O(1)
-        for bucket in self.buckets:  # O(n)
+        for bucket in self.buckets:  # O(b)
             for _, value in bucket.items():  # O(n)
                 all_values.append(value)  # O(1)
         return all_values  # O(1)
@@ -51,27 +51,28 @@ class HashTable(object):
         Running time: O(n) we are looping through all the buckets + nodes
         """
         all_items = []  # O(1)
-        for bucket in self.buckets:  # O(n)
-            all_items.extend(bucket.items())  # O(1)
+        for bucket in self.buckets:  # O(b)
+            all_items.extend(bucket.items())  # O(l)
         return all_items  # O(1)
 
     def length(self):
         """Return the number of key-value entries by traversing its buckets.
          Running time: O(n) we are looping through all the buckets + LinkedList inside of the buckets
+         O(b * l(n/b))
          """
         count = 0  # O(1)
-        for buckets in self.buckets:  # O(n)
-            count += buckets.length()  # O(1)
+        for buckets in self.buckets:  # O(b)
+            count += buckets.length()  # O(l)
         return count  # O(1)
 
     def contains(self, key):
         """Return True if this hash table contains the given key, or False.
-            Best Case: O(1) if the bucket does not contain the key.
-            Average case: O(l) we are using the find to inside of the LL class to return true or false
+            Best Case: O(1) if we find key in first node.
+            Average case: O(l) because we are traversing the linked list and l is the average length of the linked list 
             """
         index = self._bucket_index(key)  # O(1)
         bucket = self.buckets[index]  # O(1)
-        if (bucket.find(lambda value: key == value[0]) is None):  # O(n)
+        if (bucket.find(lambda value: key == value[0]) is None):  # O(l)
             return False  # O(1)
         else:
             return True  # O(1)
@@ -79,14 +80,14 @@ class HashTable(object):
     def get(self, key):
         """Return the value associated with the given key, or raise KeyError.
         Best Case: O(1) if the bucket does not contain the key.
-        Average case: O(l) We have to look through a single bucket to determine if the key is inside of the bucket
+        Average case: O(l) were using the find method, which is O(l) where l is average length of linked list
         """
         index = self._bucket_index(key)  # O(1)
         bucket = self.buckets[index]  # O(1)
         if bucket.is_empty():  # O(1)
             raise KeyError('Key not found: {}'.format(key))  # O(1)
 
-        key_value = bucket.find(lambda value: key == value[0])  # O(n)
+        key_value = bucket.find(lambda value: key == value[0])  # O(l)
         if key_value is None:  # O(1)
             raise KeyError('Key not found: {}'.format(key))  # O(1)
         else:
@@ -94,14 +95,14 @@ class HashTable(object):
 
     def set(self, key, value):
         """Insert or update the given key with its associated value.
-        Best case: O(1) if the key is not a value in the bucket already
-        Average case: O(l) if the bucket already has a key value pair at the hash value.
+        Best case: O(1) if deleteing first node
+        Average case: O(l) were using the find method, which is O(l) where l is average length of linked list
         """
         index = self._bucket_index(key)  # O(1)
         bucket = self.buckets[index]  # O(1)
 
         try:
-            self.delete(key)  # O(n)
+            self.delete(key)  # O(l)
         except KeyError:  # O(1)
             pass
 
@@ -109,12 +110,12 @@ class HashTable(object):
 
     def delete(self, key):
         """Delete the given key from this hash table, or raise KeyError.
-         Best case: O(1) if the bucket is empty
-        Average case: O(n) if the bucket has multiple nodes.
+         Best case: O(1) if the bucket is empty / deleting first node
+        Average case: O(l) were using the find method, which is O(l) where l is average length of linked list
         """
         index = self._bucket_index(key)  # O(1)
         bucket = self.buckets[index]  # O(1)
-        key_value = bucket.find(lambda value: value[0] == key)  # O(n)
+        key_value = bucket.find(lambda value: value[0] == key)  # O(l)
         if key_value is None:  # O(1)
             raise KeyError('Key not found: {}'.format(key))  # O(1)
         else:
